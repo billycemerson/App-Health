@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain.schema import HumanMessage
 
 # Load all PDFs from the specified folder
-pdf_folder_path = "/content/drive/MyDrive/TSDN 2024/BARU/Data/"
+pdf_folder_path = "./Data/"
 all_pdf_paths = glob.glob(os.path.join(pdf_folder_path, "*.pdf"))
 
 # Load each PDF document and split text
@@ -24,7 +24,7 @@ for pdf_path in all_pdf_paths:
 print(f"Total loaded document chunks: {len(documents)}")
 
 # Set up embeddings and LLM with Google Gemini API
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"  # Replace with your actual API key
+GEMINI_API_KEY = "AIzaSyDFQrUxPXyeVGU66oxymNMeK9IZy_Z272U"  # Replace with your actual API key
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GEMINI_API_KEY)
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_API_KEY)
 
