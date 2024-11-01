@@ -34,6 +34,8 @@ def init():
     vector_db = FAISS.from_documents(documents, embeddings)
     retriever = vector_db.as_retriever(search_type="similarity", search_kwargs={"k": 5})
 
+    return llm, retriever
+
 # Define RAG prompt templates for different recommendations
 def generate_prompt(query, context, recommendation_type):
     prompt = f"""
@@ -51,7 +53,7 @@ def generate_prompt(query, context, recommendation_type):
 
 # Streamlit App
 def main():
-    init()
+    llm, retriever = init()
     st.title("Sistem Rekomendasi Kesehatan Berbasis RAG")
 
     # Input fields
@@ -89,6 +91,9 @@ def main():
         messages = [HumanMessage(content=prompt)]
         answer = llm(messages=messages)
         st.text_area("Jawaban:", answer, height=300)
+
+def write_message(answer):
+    pass
 
 if __name__ == "__main__":
     main()
