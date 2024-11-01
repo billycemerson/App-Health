@@ -90,10 +90,11 @@ def main():
         # Buat pesan HumanMessage dan dapatkan hasil dari model LLM
         messages = [HumanMessage(content=prompt)]
         answer = llm(messages=messages)
-        st.text_area("Jawaban:", write_message(answer), height=300)
+        st.markdown(answer.content)
+        # st.text_area("Jawaban:", write_message(answer), height=300)
 
-def write_message(answer):
-    return st.markdown(answer.content)
+# def write_message(answer):
+#     return st.markdown(answer.content)
 
 if __name__ == "__main__":
     main()
