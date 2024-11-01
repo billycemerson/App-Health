@@ -39,7 +39,7 @@ def init():
 # Define RAG prompt templates for different recommendations
 def generate_prompt(query, context, recommendation_type):
     prompt = f"""
-    Anda adalah seorang ahli kesehatan yang membantu tugas kesehatan untuk memberikan {recommendation_type} berdasarkan informasi pasien yang ada, meskipun detail medis tambahan mungkin tidak tersedia.
+    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan untuk memberikan {recommendation_type} berdasarkan informasi pasien yang ada, meskipun detail medis tambahan mungkin tidak tersedia.
 
     Informasi Pasien:
     {query}
@@ -75,7 +75,7 @@ def main():
 
         # Generate prompt based on user selection
         if recommendation_type == "Rekomendasi Pengobatan":
-            prompt = generate_prompt(query=f"{query} Rekomendasi pengobatan oleh petugas kesehatan untuk pasien TB.",
+            prompt = generate_prompt(query=f"{query} Rekomendasi pengobatan untuk petugas kesehatan terhadap pasien TB.",
                                      context=context,
                                      recommendation_type="Rekomendasi Pengobatan")
         elif recommendation_type == "Rekomendasi Pola Hidup":
