@@ -60,7 +60,7 @@ def main():
     profil_pasien = st.text_input("Masukkan Profil Pasien (umur, jenis kelamin, dll):")
     riwayat_pasien = st.text_area("Masukkan Riwayat Pasien:")
     pola_hidup = st.text_area("Masukkan Pola Hidup Pasien:")
-    hasil_ctscan = st.selectbox("Masukkan Hasil CT Scan", ("TB", "Tidak"))
+    hasil_ctscan = st.selectbox("Masukkan Hasil CT Scan", ("TB", "Tidak TB"))
 
     # Recommendation Type Selection
     recommendation_type = st.radio("Pilih Jenis Rekomendasi:",
