@@ -9,28 +9,30 @@ from langchain.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain.schema import HumanMessage
 
-# Load all PDFs from the specified folder
-pdf_folder_path = "./data/"
-all_pdf_paths = glob.glob(os.path.join(pdf_folder_path, "*.pdf"))
-
-# Load each PDF document and split text
-documents = []
-for pdf_path in all_pdf_paths:
-    loader = PyPDFLoader(pdf_path)
-    pdf_docs = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    documents.extend(text_splitter.split_documents(pdf_docs))
-
-print(f"Total loaded document chunks: {len(documents)}")
-
-# Set up embeddings and LLM with Google Gemini API
-GEMINI_API_KEY = "AIzaSyDFQrUxPXyeVGU66oxymNMeK9IZy_Z272U"  # Replace with your actual API key
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GEMINI_API_KEY)
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_API_KEY)
-
-# Create FAISS vector database from documents
-vector_db = FAISS.from_documents(documents, embeddings)
-retriever = vector_db.as_retriever(search_type="similarity", search_kwargs={"k": 5})
+@st.cache_resource
+def init():
+    # Load all PDFs from the specified folder
+    pdf_folder_path = "./data/"
+    all_pdf_paths = glob.glob(os.path.join(pdf_folder_path, "*.pdf"))
+    
+    # Load each PDF document and split text
+    documents = []
+    for pdf_path in all_pdf_paths:
+        loader = PyPDFLoader(pdf_path)
+        pdf_docs = loader.load()
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+        documents.extend(text_splitter.split_documents(pdf_docs))
+    
+    print(f"Total loaded document chunks: {len(documents)}")
+    
+    # Set up embeddings and LLM with Google Gemini API
+    GEMINI_API_KEY = "AIzaSyDFQrUxPXyeVGU66oxymNMeK9IZy_Z272U"  # Replace with your actual API key
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GEMINI_API_KEY)
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_API_KEY)
+    
+    # Create FAISS vector database from documents
+    vector_db = FAISS.from_documents(documents, embeddings)
+    retriever = vector_db.as_retriever(search_type="similarity", search_kwargs={"k": 5})
 
 # Define RAG prompt templates for different recommendations
 def generate_prompt(query, context, recommendation_type):
@@ -49,6 +51,7 @@ def generate_prompt(query, context, recommendation_type):
 
 # Streamlit App
 def main():
+    init()
     st.title("Sistem Rekomendasi Kesehatan Berbasis RAG")
 
     # Input fields
