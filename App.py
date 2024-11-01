@@ -62,16 +62,16 @@ def main():
     pola_hidup = st.text_area("Masukkan Pola Hidup Pasien:")
     hasil_ctscan = st.selectbox("Masukkan Hasil CT Scan", ("TB", "Tidak"))
 
+    # Recommendation Type Selection
+    recommendation_type = st.radio("Pilih Jenis Rekomendasi:",
+                                    ("Rekomendasi Pengobatan",
+                                     "Rekomendasi Pola Hidup",
+                                     "Rekomendasi Penanganan Lanjutan"))
+
     if st.button("Dapatkan Rekomendasi"):
         # Gabungkan data pasien sebagai query untuk konteks rekomendasi
         query = f"Profil pasien: {profil_pasien}. Riwayat: {riwayat_pasien}. Pola Hidup:{pola_hidup}. Hasil CT Scan: {hasil_ctscan}."
         context = "\n".join([result.page_content for result in retriever.get_relevant_documents(query)])
-
-        # Recommendation Type Selection
-        recommendation_type = st.radio("Pilih Jenis Rekomendasi:",
-                                        ("Rekomendasi Pengobatan",
-                                         "Rekomendasi Pola Hidup",
-                                         "Rekomendasi Penanganan Lanjutan"))
 
         # Generate prompt based on user selection
         if recommendation_type == "Rekomendasi Pengobatan":
