@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain.schema import HumanMessage
 
 # Load all PDFs from the specified folder
-pdf_folder_path = "./Data/"
+pdf_folder_path = "./data/"
 all_pdf_paths = glob.glob(os.path.join(pdf_folder_path, "*.pdf"))
 
 # Load each PDF document and split text
