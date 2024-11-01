@@ -54,7 +54,7 @@ def generate_treatment_prompt(query, context):
 
 def generate_lifestyle_prompt(query, context):
     prompt = f"""
-    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan memberikan rekomendasi pola hidup sehat kepada pasien dengan kondisi khusus seperti TB.
+    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan memberikan rekomendasi pola hidup sehat kepada pasien yang terindikasi TB atau tidak dengan informasi berikut.
 
     **Profil dan Riwayat Pasien**:
     {query}
@@ -72,7 +72,7 @@ def generate_lifestyle_prompt(query, context):
 
 def generate_followup_prompt(query, context):
     prompt = f"""
-    Anda adalah seorang ahli kesehatan yang memberikan rekomendasi penanganan lanjutan bagi petugas kesehatan untuk pasien dengan riwayat TB.
+    Anda adalah seorang ahli kesehatan yang memberikan rekomendasi penanganan lanjutan bagi petugas kesehatan untuk pasien yang terindikasi TB atau tidak dengan informasi berikut.
 
     **Profil dan Riwayat Pasien**:
     {query}
