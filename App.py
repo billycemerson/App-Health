@@ -1,7 +1,5 @@
 import os
 import glob
-import signal
-import sys
 import streamlit as st
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -37,17 +35,56 @@ def init():
     return llm, retriever
 
 # Define RAG prompt templates for different recommendations
-def generate_prompt(query, context, recommendation_type):
+def generate_treatment_prompt(query, context):
     prompt = f"""
-    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan untuk memberikan {recommendation_type} kepada pasien berdasarkan informasi pasien yang ada.
+    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan untuk memberikan rekomendasi pengobatan kepada pasien berdasarkan informasi yang tersedia.
 
-    Informasi Pasien:
+    **Profil dan Riwayat Pasien**:
     {query}
 
-    Keterangan Medis:
+    **Riwayat Medis dan Keterangan Medis**:
     {context}
 
-    Berikan rekomendasi {recommendation_type} yang dapat diterapkan sesuai kondisi pasien yang ada. Pastikan rekomendasi spesifik dan relevan.
+    Berdasarkan informasi di atas, berikan rekomendasi pengobatan yang spesifik meliputi:
+    1. Obat yang disarankan beserta dosisnya (jika mungkin).
+    2. Metode pengobatan yang sesuai.
+    3. Langkah perawatan yang harus dilakukan oleh petugas medis terhadap pasien.
+    """
+    return prompt
+
+def generate_lifestyle_prompt(query, context):
+    prompt = f"""
+    Anda adalah seorang ahli kesehatan yang membantu petugas kesehatan memberikan rekomendasi pola hidup sehat kepada pasien dengan kondisi khusus seperti TB.
+
+    **Profil dan Riwayat Pasien**:
+    {query}
+
+    **Riwayat Medis dan Keterangan Medis**:
+    {context}
+
+    Berdasarkan informasi di atas, berikan rekomendasi pola hidup yang spesifik yang mencakup:
+    1. Aktivitas fisik yang aman dan direkomendasikan (misalnya, jenis olahraga dan frekuensinya).
+    2. Pola makan dan jenis makanan yang sebaiknya dikonsumsi dan dihindari (contoh: makanan yang meningkatkan imunitas).
+    3. Kebiasaan sehari-hari yang dapat membantu pemulihan, termasuk tips manajemen stres dan tidur.
+    4. Instruksi khusus untuk menjaga kebersihan dan mencegah penularan.
+    """
+    return prompt
+
+def generate_followup_prompt(query, context):
+    prompt = f"""
+    Anda adalah seorang ahli kesehatan yang memberikan rekomendasi penanganan lanjutan bagi petugas kesehatan untuk pasien dengan riwayat TB.
+
+    **Profil dan Riwayat Pasien**:
+    {query}
+
+    **Riwayat Medis dan Keterangan Medis**:
+    {context}
+
+    Berdasarkan informasi di atas, berikan rekomendasi penanganan lanjutan yang mencakup:
+    1. Jadwal kontrol kesehatan atau pemeriksaan lanjutan yang disarankan.
+    2. Pengujian tambahan atau pemeriksaan yang mungkin diperlukan (contoh: X-ray atau tes laboratorium).
+    3. Tanda atau gejala yang perlu diwaspadai sebagai indikasi komplikasi.
+    4. Saran untuk pemulihan yang berkelanjutan, seperti adaptasi pola hidup, manajemen stres, dan dukungan sosial yang dibutuhkan.
     """
     return prompt
 
@@ -75,26 +112,16 @@ def main():
 
         # Generate prompt based on user selection
         if recommendation_type == "Rekomendasi Pengobatan":
-            prompt = generate_prompt(query=f"{query} Rekomendasi pengobatan untuk petugas kesehatan terhadap pasien TB.",
-                                     context=context,
-                                     recommendation_type="Rekomendasi Pengobatan")
+            prompt = generate_treatment_prompt(query=query, context=context)
         elif recommendation_type == "Rekomendasi Pola Hidup":
-            prompt = generate_prompt(query=f"{query} Rekomendasi pola hidup untuk pasien TB.",
-                                     context=context,
-                                     recommendation_type="Rekomendasi Pola Hidup")
+            prompt = generate_lifestyle_prompt(query=query, context=context)
         elif recommendation_type == "Rekomendasi Penanganan Lanjutan":
-            prompt = generate_prompt(query=f"{query} Rekomendasi penanganan lanjutan untuk pasien TB.",
-                                     context=context,
-                                     recommendation_type="Rekomendasi Penanganan Lanjutan")
+            prompt = generate_followup_prompt(query=query, context=context)
 
         # Buat pesan HumanMessage dan dapatkan hasil dari model LLM
         messages = [HumanMessage(content=prompt)]
         answer = llm(messages=messages)
         st.markdown(answer.content)
-        # st.text_area("Jawaban:", write_message(answer), height=300)
-
-# def write_message(answer):
-#     return st.markdown(answer.content)
 
 if __name__ == "__main__":
     main()
