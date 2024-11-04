@@ -45,7 +45,7 @@ def generate_treatment_prompt(query, context):
     **Riwayat Medis dan Keterangan Medis**:
     {context}
 
-    Berdasarkan informasi di atas, berikan rekomendasi pengobatan yang spesifik meliputi:
+    Berdasarkan informasi di atas, berikan rekomendasi pengobatan yang singkat namun spesifik dan jelas meliputi:
     1. Obat yang disarankan beserta dosisnya (jika mungkin).
     2. Metode pengobatan yang sesuai.
     3. Langkah perawatan yang harus dilakukan oleh petugas medis terhadap pasien.
@@ -62,7 +62,7 @@ def generate_lifestyle_prompt(query, context):
     **Riwayat Medis dan Keterangan Medis**:
     {context}
 
-    Berdasarkan informasi di atas, berikan rekomendasi pola hidup yang spesifik yang mencakup:
+    Berdasarkan informasi di atas, berikan rekomendasi pola hidup yang singkat namun spesifik dan jelas yang mencakup:
     1. Aktivitas fisik yang aman dan direkomendasikan (misalnya, jenis olahraga dan frekuensinya).
     2. Pola makan dan jenis makanan yang sebaiknya dikonsumsi dan dihindari (contoh: makanan yang meningkatkan imunitas).
     3. Kebiasaan sehari-hari yang dapat membantu pemulihan, termasuk tips manajemen stres dan tidur.
@@ -80,7 +80,7 @@ def generate_followup_prompt(query, context):
     **Riwayat Medis dan Keterangan Medis**:
     {context}
 
-    Berdasarkan informasi di atas, berikan rekomendasi penanganan lanjutan yang mencakup:
+    Berdasarkan informasi di atas, berikan rekomendasi penanganan lanjutan yang singkat namun spesifik dan jelas mencakup:
     1. Jadwal kontrol kesehatan atau pemeriksaan lanjutan yang disarankan.
     2. Pengujian tambahan atau pemeriksaan yang mungkin diperlukan (contoh: X-ray atau tes laboratorium).
     3. Tanda atau gejala yang perlu diwaspadai sebagai indikasi komplikasi.
