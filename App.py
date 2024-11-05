@@ -24,7 +24,7 @@ def init():
     print(f"Total loaded document chunks: {len(documents)}")
     
     # Set up embeddings and LLM with Google Gemini API
-    GEMINI_API_KEY = "GEMINI_API_KEY"  # Replace with your actual API key
+    GEMINI_API_KEY = GEMINI_API_KEY  # Replace with your actual API key
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GEMINI_API_KEY)
     llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_API_KEY)
     
