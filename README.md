@@ -1,4 +1,3 @@
-# Sistem Rekomendasi TB berbasis RAG
+# Simple TB Recommendation Web App based RAG
 
-## Contoh Simpel
 Link: https://rec-tb-rag.streamlit.app/
